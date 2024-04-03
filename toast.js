@@ -1,11 +1,11 @@
 /***********************************************
 
-  "toast.js"
+	"toast.js"
 
-  Created by Michael Cheng on 05/31/2015 22:34
-            http://michaelcheng.us/
-            michael@michaelcheng.us
-            --All Rights Reserved--
+	Created by Michael Cheng on 05/31/2015 22:34
+						http://michaelcheng.us/
+						michael@michaelcheng.us
+						--All Rights Reserved--
 
 ***********************************************/
 
@@ -13,7 +13,7 @@
 
 var iqwerty = iqwerty || {};
 
-iqwerty.toast = (function() {
+iqwerty.toast = (function () {
 
 	/**
 	 * The Toast animation speed; how long the Toast takes to move to and from the screen
@@ -23,16 +23,13 @@ iqwerty.toast = (function() {
 
 	const Transitions = {
 		SHOW: {
-			'-webkit-transition': 'opacity ' + TOAST_ANIMATION_SPEED + 'ms, -webkit-transform ' + TOAST_ANIMATION_SPEED + 'ms',
 			'transition': 'opacity ' + TOAST_ANIMATION_SPEED + 'ms, transform ' + TOAST_ANIMATION_SPEED + 'ms',
 			'opacity': '1',
-			'-webkit-transform': 'translateY(-100%) translateZ(0)',
 			'transform': 'translateY(-100%) translateZ(0)'
 		},
 
 		HIDE: {
 			'opacity': '0',
-			'-webkit-transform': 'translateY(150%) translateZ(0)',
 			'transform': 'translateY(150%) translateZ(0)'
 		}
 	};
@@ -44,7 +41,7 @@ iqwerty.toast = (function() {
 	 * @param {Object} transitions Optional; the Transitions object. This should not be used unless you know what you're doing
 	 */
 	function Toast(text, options, transitions) {
-		if(getToastStage() !== null) {
+		if (getToastStage() !== null) {
 			// If there is already a Toast being shown, put this Toast in the queue to show later
 			Toast.prototype.toastQueue.push({
 				text: text,
@@ -57,7 +54,7 @@ iqwerty.toast = (function() {
 			_options = Toast.prototype.mergeOptions(Toast.prototype.DEFAULT_SETTINGS, _options);
 
 			Toast.prototype.show(text, _options);
-			
+
 			_options = null;
 		}
 	}
@@ -96,7 +93,7 @@ iqwerty.toast = (function() {
 				'z-index': '99999',
 
 				'color': 'rgba(255, 255, 255, .9)',
-				
+
 				'padding': '10px 15px',
 				'max-width': '60%',
 				'width': '100%',
@@ -109,9 +106,8 @@ iqwerty.toast = (function() {
 				'right': '0',
 				'bottom': '0',
 
-				'-webkit-transform': 'translateY(150%) translateZ(0)',
 				'transform': 'translateY(150%) translateZ(0)',
-				'-webkit-filter': 'blur(0)',
+				'filter': 'blur(0)',
 				'opacity': '0'
 			}
 		},
@@ -120,9 +116,6 @@ iqwerty.toast = (function() {
 			duration: 2000
 		}
 	};
-
-	Toast.prototype.Transitions = {};
-
 
 	/**
 	 * The queue of Toasts waiting to be shown
@@ -143,11 +136,11 @@ iqwerty.toast = (function() {
 	 * Merge the DEFAULT_SETTINGS with the user defined options if specified
 	 * @param  {Object} options The user defined options
 	 */
-	Toast.prototype.mergeOptions = function(initialOptions, customOptions) {
+	Toast.prototype.mergeOptions = function (initialOptions, customOptions) {
 		var merged = customOptions;
-		for(var prop in initialOptions) {
-			if(merged.hasOwnProperty(prop)) {
-				if(initialOptions[prop] !== null && initialOptions[prop].constructor === Object) {
+		for (var prop in initialOptions) {
+			if (merged.hasOwnProperty(prop)) {
+				if (initialOptions[prop] !== null && initialOptions[prop].constructor === Object) {
 					merged[prop] = Toast.prototype.mergeOptions(initialOptions[prop], merged[prop]);
 				}
 			} else {
@@ -163,14 +156,14 @@ iqwerty.toast = (function() {
 	 * @param  {String|Object} text    The text to show inside the Toast, can be an HTML element or plain text
 	 * @param  {Object} style   The style to set for the Toast
 	 */
-	Toast.prototype.generate = function(text, style) {
+	Toast.prototype.generate = function (text, style) {
 		var toastStage = document.createElement('div');
 
 
 		/**
 		 * If the text is a String, create a textNode for appending
 		 */
-		if(typeof text === 'string') {
+		if (typeof text === 'string') {
 			text = document.createTextNode(text);
 		}
 		toastStage.appendChild(text);
@@ -188,8 +181,8 @@ iqwerty.toast = (function() {
 	 * @param  {Object}  styles  An object containing the style to apply
 	 * @return                   Returns nothing
 	 */
-	Toast.prototype.stylize = function(element, styles) {
-		Object.keys(styles).forEach(function(style) {
+	Toast.prototype.stylize = function (element, styles) {
+		Object.keys(styles).forEach(function (style) {
 			element.style[style] = styles[style];
 		});
 	};
@@ -200,9 +193,9 @@ iqwerty.toast = (function() {
 	 * @param  {String} text    The text to show inside the Toast
 	 * @param  {Object} options The object containing the options for the Toast
 	 */
-	Toast.prototype.show = function(text, options) {
+	Toast.prototype.show = function (text, options) {
 		this.generate(text, options.style.main);
-		
+
 		var toastStage = getToastStage();
 		document.body.insertBefore(toastStage, document.body.firstChild);
 
@@ -227,7 +220,7 @@ iqwerty.toast = (function() {
 	/**
 	 * Hide the Toast that's currently shown
 	 */
-	Toast.prototype.hide = function() {
+	Toast.prototype.hide = function () {
 		var toastStage = getToastStage();
 		Toast.prototype.stylize(toastStage, Toast.prototype.Transitions.HIDE);
 
@@ -237,7 +230,7 @@ iqwerty.toast = (function() {
 		toastStage = null;
 	};
 
-	Toast.prototype.animationListener = function() {
+	Toast.prototype.animationListener = function () {
 		getToastStage().removeEventListener('transitionend', Toast.prototype.animationListener);
 		Toast.prototype.destroy.call(this);
 	};
@@ -246,7 +239,7 @@ iqwerty.toast = (function() {
 	/**
 	 * Clean up after the Toast slides away. Namely, removing the Toast from the DOM. After the Toast is cleaned up, display the next Toast in the queue if any exists
 	 */
-	Toast.prototype.destroy = function() {
+	Toast.prototype.destroy = function () {
 		var toastStage = getToastStage();
 		document.body.removeChild(toastStage);
 
@@ -254,9 +247,9 @@ iqwerty.toast = (function() {
 		setToastStage(null);
 
 
-		if(Toast.prototype.toastQueue.length > 0) {
+		if (Toast.prototype.toastQueue.length > 0) {
 			// Show the rest of the Toasts in the queue if they exist
-			
+
 			var toast = Toast.prototype.toastQueue.shift();
 			Toast(toast.text, toast.options, toast.transitions);
 
@@ -270,7 +263,7 @@ iqwerty.toast = (function() {
 	};
 })();
 
-if(typeof module !== 'undefined') {
+if (typeof module !== 'undefined') {
 	/* global module */
 	module.exports = iqwerty.toast;
 }
