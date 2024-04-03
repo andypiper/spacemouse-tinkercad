@@ -27,10 +27,17 @@
     }
   ],
   "web_accessible_resources": [
-    "content.js",
-    "spacenav.js",
-    "toast.js",
-    "options.js",
-    "optiondata.js"
+    {
+      "resources": [
+        "content.js",
+        "spacenav.js",
+        "toast.js",
+        "options.js",
+        "optiondata.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
   ]
 }
